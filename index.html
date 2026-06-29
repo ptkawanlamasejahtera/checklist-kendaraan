@@ -4,165 +4,227 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Checklist Kendaraan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --blue: #1a56db;
-    --blue-light: #ebf2ff;
-    --blue-dark: #1341b3;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-400: #9ca3af;
-    --gray-600: #4b5563;
-    --gray-800: #1f2937;
+    --p900: #2e1065;
+    --p800: #3b0764;
+    --p700: #4c0f8f;
+    --p600: #6d28d9;
+    --p500: #7c3aed;
+    --p400: #8b5cf6;
+    --p300: #a78bfa;
+    --p200: #c4b5fd;
+    --p100: #ede9fe;
+    --p50:  #f5f3ff;
     --red: #ef4444;
     --green: #16a34a;
-    --green-light: #dcfce7;
-    --radius: 10px;
+    --gray-50: #fafafa;
+    --gray-100: #f4f4f5;
+    --gray-200: #e4e4e7;
+    --gray-400: #a1a1aa;
+    --gray-600: #52525b;
+    --gray-800: #27272a;
+    --radius: 14px;
+    --radius-sm: 10px;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--gray-50);
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--p50);
     color: var(--gray-800);
     min-height: 100vh;
   }
 
+  /* ── HEADER ── */
   header {
-    background: var(--blue);
+    background: linear-gradient(135deg, var(--p800) 0%, var(--p600) 100%);
     color: #fff;
-    padding: 16px 20px 14px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 20px 20px 52px;
+    position: relative;
+    overflow: hidden;
   }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -20px; right: -20px;
+    height: 60px;
+    background: var(--p50);
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  header .hicon {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,.15);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+  }
+  header h1 { font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+  header p  { font-size: 12px; opacity: .7; margin-top: 3px; }
 
-  header h1 { font-size: 17px; font-weight: 600; }
-  header p { font-size: 12px; opacity: .75; margin-top: 2px; }
+  /* ── BODY ── */
+  .form-body { padding: 8px 16px 24px; max-width: 480px; margin: 0 auto; }
 
-  .form-body { padding: 16px; max-width: 480px; margin: 0 auto; }
-
+  /* ── SECTION TITLE ── */
   .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 11px;
-    font-weight: 600;
-    color: var(--blue);
-    letter-spacing: .08em;
+    font-weight: 700;
+    color: var(--p500);
+    letter-spacing: .1em;
     text-transform: uppercase;
-    margin: 20px 0 10px;
+    margin: 22px 0 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 3px; height: 14px;
+    background: var(--p400);
+    border-radius: 2px;
+    flex-shrink: 0;
   }
 
+  /* ── CARD ── */
   .card {
     background: #fff;
     border-radius: var(--radius);
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--p200);
     overflow: hidden;
     margin-bottom: 12px;
+    box-shadow: 0 2px 12px rgba(109,40,217,.07);
   }
 
+  /* ── FIELD ── */
   .field {
-    padding: 12px 14px;
+    padding: 13px 16px;
     border-bottom: 1px solid var(--gray-100);
   }
   .field:last-child { border-bottom: none; }
 
   .field label {
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 600;
     color: var(--gray-600);
-    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   .field label .req { color: var(--red); margin-left: 2px; }
 
-  input[type=date], input[type=time], input[type=number], select, input[type=text] {
+  /* ── INPUTS ── */
+  input[type=date], input[type=time], input[type=number], input[type=text] {
     width: 100%;
-    height: 42px;
-    border: 1px solid var(--gray-200);
-    border-radius: 8px;
-    padding: 0 12px;
+    height: 44px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    padding: 0 14px;
     font-size: 15px;
+    font-family: 'Inter', sans-serif;
     color: var(--gray-800);
     background: var(--gray-50);
     appearance: none;
     -webkit-appearance: none;
+    transition: border-color .15s, box-shadow .15s;
   }
-  input:focus, select:focus {
+  input:focus {
     outline: none;
-    border-color: var(--blue);
+    border-color: var(--p400);
     background: #fff;
+    box-shadow: 0 0 0 3px rgba(139,92,246,.15);
   }
 
+  /* ── KM STEPPER ── */
   .num-row {
     display: flex;
-    border: 1px solid var(--gray-200);
-    border-radius: 8px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
     overflow: hidden;
     background: var(--gray-50);
-    height: 42px;
+    height: 44px;
+    transition: border-color .15s;
+  }
+  .num-row:focus-within {
+    border-color: var(--p400);
+    box-shadow: 0 0 0 3px rgba(139,92,246,.15);
   }
   .num-row input {
-    border: none;
-    border-radius: 0;
-    text-align: center;
-    flex: 1;
+    border: none; border-radius: 0;
+    text-align: center; flex: 1;
     background: transparent;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 17px; font-weight: 700;
+    color: var(--p700);
+    box-shadow: none;
   }
   .num-btn {
-    width: 46px;
-    background: var(--gray-100);
+    width: 48px; height: 44px;
+    background: var(--p100);
     border: none;
     font-size: 22px;
-    color: var(--gray-600);
+    color: var(--p600);
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
     -webkit-tap-highlight-color: transparent;
+    transition: background .12s;
   }
-  .num-btn:active { background: var(--gray-200); }
+  .num-btn:active { background: var(--p200); }
 
+  /* ── TOGGLE BUTTONS ── */
   .toggle-row { display: flex; gap: 8px; }
   .tog {
     flex: 1;
-    height: 42px;
+    height: 44px;
     border: 1.5px solid var(--gray-200);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     background: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gray-600);
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    color: var(--gray-400);
     cursor: pointer;
-    letter-spacing: .04em;
+    letter-spacing: .06em;
     -webkit-tap-highlight-color: transparent;
     transition: all .15s;
   }
   .tog.active {
-    background: var(--blue-light);
-    border-color: var(--blue);
-    color: var(--blue);
+    background: var(--p100);
+    border-color: var(--p400);
+    color: var(--p700);
+    box-shadow: 0 0 0 3px rgba(139,92,246,.12);
   }
 
+  /* ── PHOTO BOX ── */
   .photo-box {
-    border: 2px dashed var(--gray-200);
-    border-radius: 8px;
-    background: var(--gray-50);
+    border: 2px dashed var(--p200);
+    border-radius: var(--radius-sm);
+    background: var(--p50);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: border-color .15s;
-    min-height: 110px;
+    transition: border-color .15s, background .15s;
+    min-height: 120px;
   }
-  .photo-box:active { border-color: var(--blue); }
-  .photo-box svg { color: var(--gray-400); }
-  .photo-box span { font-size: 12px; color: var(--gray-400); }
+  .photo-box:active { border-color: var(--p400); background: var(--p100); }
+  .photo-box svg { color: var(--p300); }
+  .photo-box .photo-hint {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--p400);
+  }
+  .photo-box .photo-sub {
+    font-size: 11px;
+    color: var(--gray-400);
+    margin-top: -4px;
+  }
   .photo-box input[type=file] {
     position: absolute; inset: 0;
     opacity: 0; cursor: pointer;
@@ -171,52 +233,57 @@
   .photo-box img {
     width: 100%; height: 100%;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
     display: none;
     position: absolute; inset: 0;
   }
   .photo-box.has-photo img { display: block; }
   .photo-box.has-photo svg,
-  .photo-box.has-photo span { opacity: 0; }
+  .photo-box.has-photo .photo-hint,
+  .photo-box.has-photo .photo-sub { opacity: 0; }
 
-  .photo-label { font-size: 11px; color: var(--gray-600); margin-bottom: 5px; font-weight: 500; }
-
+  /* ── SUBMIT ── */
   .submit-btn {
     width: 100%;
-    height: 50px;
-    background: var(--blue);
+    height: 52px;
+    background: linear-gradient(135deg, var(--p600) 0%, var(--p500) 100%);
     color: #fff;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .02em;
     cursor: pointer;
     margin-top: 8px;
     -webkit-tap-highlight-color: transparent;
-    transition: background .15s;
+    transition: opacity .15s, transform .1s;
+    box-shadow: 0 4px 20px rgba(109,40,217,.35);
   }
-  .submit-btn:active { background: var(--blue-dark); }
-  .submit-btn:disabled { background: var(--gray-400); cursor: not-allowed; }
+  .submit-btn:active { opacity: .88; transform: scale(.98); }
+  .submit-btn:disabled { background: var(--gray-400); box-shadow: none; cursor: not-allowed; }
 
+  /* ── TOAST ── */
   .toast {
     position: fixed;
     bottom: 24px; left: 50%;
     transform: translateX(-50%) translateY(80px);
     background: var(--gray-800);
     color: #fff;
-    padding: 12px 20px;
-    border-radius: 10px;
+    padding: 12px 22px;
+    border-radius: 12px;
     font-size: 14px;
-    font-weight: 500;
-    transition: transform .3s ease;
+    font-weight: 600;
+    transition: transform .3s cubic-bezier(.34,1.56,.64,1);
     z-index: 100;
     white-space: nowrap;
-    box-shadow: 0 4px 20px rgba(0,0,0,.25);
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.success { background: var(--green); }
-  .toast.error { background: var(--red); }
+  .toast.error   { background: var(--red); }
 
+  /* ── SPINNER ── */
   .spinner {
     display: inline-block;
     width: 18px; height: 18px;
@@ -229,64 +296,23 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .setup-banner {
-    background: #fffbeb;
-    border: 1px solid #fcd34d;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
-    font-size: 13px;
-    color: #92400e;
-    line-height: 1.6;
-  }
-  .setup-banner strong { display: block; margin-bottom: 4px; font-size: 14px; }
-  .setup-banner code {
-    background: #fef3c7;
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-size: 12px;
-    word-break: break-all;
-  }
-  .setup-banner input[type=text] {
-    margin-top: 8px;
-    background: #fff;
-    border-color: #fcd34d;
-    font-size: 13px;
-    height: 38px;
-  }
-  .set-btn {
-    margin-top: 8px;
-    padding: 8px 16px;
-    background: #f59e0b;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    width: 100%;
-  }
-
-  .bottom-space { height: 32px; }
+  .bottom-space { height: 40px; }
 </style>
 </head>
 <body>
 
 <header>
+  <div class="hicon">
+    <svg width="22" height="22" fill="none" stroke="#fff" stroke-width="2" viewBox="0 0 24 24">
+      <path d="M9 17H5a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/>
+      <path d="M9 11l3 3L22 4"/><path d="M16 19h6"/><path d="M19 16v6"/>
+    </svg>
+  </div>
   <h1>Checklist Kendaraan</h1>
   <p id="header-date"></p>
 </header>
 
 <div class="form-body">
-
-  <!-- Setup Banner -->
-  <div class="setup-banner" id="setup-banner">
-    <strong>⚙️ Setup: Hubungkan ke Google Sheets</strong>
-    Tempel URL Google Apps Script Web App di bawah, lalu tekan Simpan.
-    <br><small>Lihat panduan di bawah halaman ini.</small>
-    <input type="text" id="script-url-input" placeholder="https://script.google.com/macros/s/…/exec">
-    <button class="set-btn" onclick="saveScriptUrl()">Simpan URL</button>
-  </div>
 
   <!-- Data Kendaraan -->
   <div class="section-title">Data Kendaraan</div>
@@ -309,11 +335,29 @@
     </div>
   </div>
 
-  <!-- BBM & Kondisi -->
-  <div class="section-title">BBM & Kondisi</div>
+  <!-- Odometer -->
+  <div class="section-title">Odometer</div>
   <div class="card">
     <div class="field">
-      <label>BBM <span class="req">*</span></label>
+      <label>Foto KM <span class="req">*</span></label>
+      <div class="photo-box" id="box-km">
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+          <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span class="photo-hint">Tap untuk foto</span>
+        <span class="photo-sub">Angka odometer kendaraan</span>
+        <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this,'box-km','prev-km')">
+        <img id="prev-km" alt="Foto KM">
+      </div>
+    </div>
+  </div>
+
+  <!-- BBM & Kondisi -->
+  <div class="section-title">BBM &amp; Kondisi</div>
+  <div class="card">
+    <div class="field">
+      <label>Status BBM <span class="req">*</span></label>
       <div class="toggle-row">
         <button class="tog" onclick="pick(this,'bbm')">FULL</button>
         <button class="tog" onclick="pick(this,'bbm')">TIDAK FULL</button>
@@ -322,45 +366,30 @@
     <div class="field">
       <label>Foto BBM <span class="req">*</span></label>
       <div class="photo-box" id="box-bbm">
-        <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 16v-4m0 0V8m0 4H8m4 0h4M3 9l1-1V6a1 1 0 011-1h12a1 1 0 011 1v2l1 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V9z"/><path d="M6.5 19V9.5"/><path d="M17.5 19V9.5"/></svg>
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="display:none"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <span>Foto kondisi BBM</span>
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+          <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span class="photo-hint">Tap untuk foto</span>
+        <span class="photo-sub">Kondisi indikator BBM</span>
         <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this,'box-bbm','prev-bbm')">
         <img id="prev-bbm" alt="Foto BBM">
       </div>
     </div>
-    <div class="field">
-      <label>Suggest Cuci <span class="req">*</span></label>
-      <div class="toggle-row">
-        <button class="tog" onclick="pick(this,'sug')">CUCI</button>
-        <button class="tog" onclick="pick(this,'sug')">TIDAK CUCI</button>
-      </div>
-    </div>
   </div>
 
-  <!-- Odometer -->
-  <div class="section-title">Odometer</div>
-  <div class="card">
-    <div class="field">
-      <label>Foto KM <span class="req">*</span></label>
-      <div class="photo-box" id="box-km">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <span>Foto odometer</span>
-        <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this,'box-km','prev-km')">
-        <img id="prev-km" alt="Foto KM">
-      </div>
-    </div>
-  </div>
-
-  <!-- Foto Box -->
+  <!-- Foto BOX -->
   <div class="section-title">Foto BOX</div>
   <div class="card">
     <div class="field">
       <label>Foto Dalam Box <span class="req">*</span></label>
       <div class="photo-box" id="box-dalam">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <span>Foto kondisi dalam box</span>
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+          <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span class="photo-hint">Tap untuk foto</span>
+        <span class="photo-sub">Kondisi dalam box</span>
         <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this,'box-dalam','prev-dalam')">
         <img id="prev-dalam" alt="Foto Dalam">
       </div>
@@ -368,17 +397,28 @@
     <div class="field">
       <label>Foto Armada Tampak Belakang <span class="req">*</span></label>
       <div class="photo-box" id="box-belakang">
-        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        <span>Foto tampak belakang armada</span>
+        <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+          <path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span class="photo-hint">Tap untuk foto</span>
+        <span class="photo-sub">Tampak belakang armada</span>
         <input type="file" accept="image/*" capture="environment" onchange="previewPhoto(this,'box-belakang','prev-belakang')">
         <img id="prev-belakang" alt="Foto Belakang">
       </div>
     </div>
   </div>
 
-  <!-- Jadwal -->
-  <div class="section-title">Jadwal Operasional</div>
+  <!-- Suggest & Jadwal -->
+  <div class="section-title">Suggest</div>
   <div class="card">
+    <div class="field">
+      <label>Suggest Cuci <span class="req">*</span></label>
+      <div class="toggle-row">
+        <button class="tog" onclick="pick(this,'sug')">CUCI</button>
+        <button class="tog" onclick="pick(this,'sug')">TIDAK CUCI</button>
+      </div>
+    </div>
     <div class="field">
       <label>Start</label>
       <input type="time" id="start">
@@ -390,42 +430,8 @@
   </div>
 
   <button class="submit-btn" id="submit-btn" onclick="submitForm()">
-    Simpan Checklist
+    ✓ &nbsp;Simpan Checklist
   </button>
-
-  <!-- Panduan Setup -->
-  <div class="section-title" style="margin-top:28px">Panduan Setup Google Sheets</div>
-  <div class="card">
-    <div class="field" style="line-height:1.7; font-size:13px; color:#374151;">
-      <p><strong>1.</strong> Buka <a href="https://docs.google.com/spreadsheets/d/1Dz49pSWroTwyT8CvemQBeFyHaP5_57xytVfKfWvgIdA/edit" target="_blank" style="color:var(--blue)">Google Sheet ini</a> yang sudah dibuat.</p>
-      <p style="margin-top:8px"><strong>2.</strong> Klik <strong>Extensions → Apps Script</strong></p>
-      <p style="margin-top:8px"><strong>3.</strong> Hapus semua kode lama, tempel kode ini:</p>
-      <pre style="background:#f3f4f6;border-radius:6px;padding:10px;font-size:11px;overflow-x:auto;margin-top:6px;line-height:1.6">function doPost(e) {
-  const sheet = SpreadsheetApp
-    .getActiveSpreadsheet()
-    .getActiveSheet();
-  const d = JSON.parse(e.postData.contents);
-  sheet.appendRow([
-    new Date().toLocaleString('id-ID'),
-    d.tanggal, d.nopol, d.km,
-    d.bbm, d.suggest,
-    d.start, d.finish
-  ]);
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}</pre>
-      <p style="margin-top:8px"><strong>4.</strong> Klik <strong>Deploy → New deployment → Web app</strong></p>
-      <p style="margin-top:4px">→ Execute as: <em>Me</em><br>→ Who has access: <em>Anyone</em></p>
-      <p style="margin-top:8px"><strong>5.</strong> Copy URL yang muncul, tempel di kotak setup di atas halaman ini.</p>
-    </div>
-  </div>
 
   <div class="bottom-space"></div>
 </div>
@@ -435,7 +441,6 @@ function doGet(e) {
 <script>
   const state = { bbm: null, sug: null };
 
-  // Set today's date
   const today = new Date();
   const yyyy = today.getFullYear();
   const mm = String(today.getMonth()+1).padStart(2,'0');
@@ -443,22 +448,6 @@ function doGet(e) {
   document.getElementById('tgl').value = `${yyyy}-${mm}-${dd}`;
   document.getElementById('header-date').textContent =
     today.toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
-
-  // Load saved script URL
-  const savedUrl = localStorage.getItem('gs_script_url');
-  if (savedUrl) {
-    document.getElementById('setup-banner').style.display = 'none';
-  }
-
-  function saveScriptUrl() {
-    const val = document.getElementById('script-url-input').value.trim();
-    if (!val.startsWith('https://script.google.com')) {
-      showToast('URL tidak valid', 'error'); return;
-    }
-    localStorage.setItem('gs_script_url', val);
-    document.getElementById('setup-banner').style.display = 'none';
-    showToast('URL tersimpan!', 'success');
-  }
 
   function adj(id, delta) {
     const el = document.getElementById(id);
@@ -476,10 +465,7 @@ function doGet(e) {
     const box = document.getElementById(boxId);
     const img = document.getElementById(imgId);
     const reader = new FileReader();
-    reader.onload = e => {
-      img.src = e.target.result;
-      box.classList.add('has-photo');
-    };
+    reader.onload = e => { img.src = e.target.result; box.classList.add('has-photo'); };
     reader.readAsDataURL(f);
   }
 
@@ -493,16 +479,16 @@ function doGet(e) {
   }
 
   async function submitForm() {
-    const tgl = document.getElementById('tgl').value;
+    const tgl   = document.getElementById('tgl').value;
     const nopol = document.getElementById('nopol').value;
-    const km = document.getElementById('km').value;
+    const km    = document.getElementById('km').value;
 
     if (!tgl || !nopol || !km) { showToast('Tanggal, Nopol, dan KM wajib diisi!', 'error'); return; }
     if (!state.bbm) { showToast('Pilih status BBM!', 'error'); return; }
     if (!state.sug) { showToast('Pilih Suggest Cuci!', 'error'); return; }
 
     const scriptUrl = localStorage.getItem('gs_script_url');
-    if (!scriptUrl) { showToast('Tempel URL Apps Script dulu!', 'error'); return; }
+    if (!scriptUrl) { showToast('URL Apps Script belum diatur!', 'error'); return; }
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
@@ -517,18 +503,17 @@ function doGet(e) {
 
     try {
       await fetch(scriptUrl, {
-        method: 'POST',
-        mode: 'no-cors',
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
       showToast('✓ Checklist berhasil disimpan!', 'success');
       setTimeout(() => location.reload(), 2000);
     } catch(err) {
-      showToast('Gagal menyimpan. Cek koneksi internet.', 'error');
+      showToast('Gagal menyimpan. Cek koneksi!', 'error');
     } finally {
       btn.disabled = false;
-      btn.innerHTML = 'Simpan Checklist';
+      btn.innerHTML = '✓ &nbsp;Simpan Checklist';
     }
   }
 </script>
