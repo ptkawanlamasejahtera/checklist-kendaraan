@@ -500,12 +500,18 @@
     state[grp] = btn.textContent.trim();
   }
 
+  const photos = {};
+
   function previewPhoto(input, boxId, imgId) {
     const f = input.files[0]; if (!f) return;
     const box = document.getElementById(boxId);
     const img = document.getElementById(imgId);
     const reader = new FileReader();
-    reader.onload = e => { img.src = e.target.result; box.classList.add('has-photo'); };
+    reader.onload = e => {
+      img.src = e.target.result;
+      box.classList.add('has-photo');
+      photos[imgId] = e.target.result; // store full data URL (base64)
+    };
     reader.readAsDataURL(f);
   }
 
@@ -527,18 +533,25 @@
     if (!tgl || !kode_armada || !km) { showToast('Tanggal, Kode Armada, dan KM wajib diisi!', 'error'); return; }
     if (!state.bbm) { showToast('Pilih status BBM!', 'error'); return; }
     if (!state.sug) { showToast('Pilih Suggest Cuci!', 'error'); return; }
+    if (!photos['prev-km'] || !photos['prev-bbm'] || !photos['prev-dalam'] || !photos['prev-belakang']) {
+      showToast('Semua foto wajib diisi!', 'error'); return;
+    }
 
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbwGiGUpPpJQOK1BRieIGrRcZz0ZqoYFbn10i2RDAb-nJ2mhO8L0SZ8SVtjsbo8ylp2A/exec';
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Menyimpan…';
+    btn.innerHTML = '<span class="spinner"></span>Mengirim foto…';
 
     const payload = {
       tanggal: tgl, kode_armada: document.getElementById('kode_armada').value, nopol, km,
       bbm: state.bbm, suggest: state.sug,
       start: document.getElementById('start').value,
-      finish: document.getElementById('finish').value
+      finish: document.getElementById('finish').value,
+      foto_km: photos['prev-km'],
+      foto_bbm: photos['prev-bbm'],
+      foto_dalam: photos['prev-dalam'],
+      foto_belakang: photos['prev-belakang']
     };
 
     try {
