@@ -502,17 +502,32 @@
 
   const photos = {};
 
+  function compressImage(file, maxWidth, quality, callback) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxWidth) { h = h * (maxWidth / w); w = maxWidth; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        callback(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   function previewPhoto(input, boxId, imgId) {
     const f = input.files[0]; if (!f) return;
     const box = document.getElementById(boxId);
     const img = document.getElementById(imgId);
-    const reader = new FileReader();
-    reader.onload = e => {
-      img.src = e.target.result;
+    compressImage(f, 1000, 0.6, dataUrl => {
+      img.src = dataUrl;
       box.classList.add('has-photo');
-      photos[imgId] = e.target.result; // store full data URL (base64)
-    };
-    reader.readAsDataURL(f);
+      photos[imgId] = dataUrl;
+    });
   }
 
   function showToast(msg, type='') {
@@ -555,15 +570,24 @@
     };
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s timeout
+
       await fetch(scriptUrl, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       showToast('✓ Checklist berhasil disimpan!', 'success');
       setTimeout(() => location.reload(), 2000);
     } catch(err) {
-      showToast('Gagal menyimpan. Cek koneksi!', 'error');
+      if (err.name === 'AbortError') {
+        showToast('Koneksi lambat/timeout. Coba lagi!', 'error');
+      } else {
+        showToast('Gagal menyimpan. Cek koneksi!', 'error');
+      }
     } finally {
       btn.disabled = false;
       btn.innerHTML = '✓ &nbsp;Simpan Checklist';
