@@ -322,8 +322,15 @@
       <input type="date" id="tgl">
     </div>
     <div class="field">
-      <label>Nopol <span class="req">*</span></label>
-      <input type="text" id="nopol" placeholder="Contoh: B 1234 ABC" oninput="this.value=this.value.toUpperCase()">
+      <label>Kode Armada <span class="req">*</span></label>
+      <input type="text" id="kode_armada" placeholder="Contoh: F01" maxlength="6"
+        oninput="onKodeArmada(this.value)"
+        style="text-transform:uppercase;font-weight:700;letter-spacing:.05em">
+    </div>
+    <div class="field">
+      <label>No Polisi</label>
+      <input type="text" id="nopol" placeholder="Terisi otomatis" readonly
+        style="background:#f5f3ff;color:var(--p600);font-weight:700;cursor:default">
     </div>
     <div class="field">
       <label>KM Check Point <span class="req">*</span></label>
@@ -439,6 +446,39 @@
 <div class="toast" id="toast"></div>
 
 <script>
+
+  const armada = {
+    'F01':  'A8012ZV',
+    'F02':  'A8607WX',
+    'F03':  'A8386VX',
+    'F04':  'A8976XA',
+    'F10':  'B9015SCF',
+    'F11':  'B9018SCF',
+    'F05':  'A8157ZC',
+    'F06':  'A8232ZC',
+    'F3VB': 'B9747SCE',
+    'F08':  'A8710ZE',
+    'F09':  'A8711ZE',
+    'F07':  'A8709ZE',
+    'F5VB': 'A8541ZE',
+    'F13':  'A8506ZD',
+    'F7VB': 'A8088VC',
+  };
+
+  function onKodeArmada(val) {
+    const kode = val.toUpperCase();
+    document.getElementById('kode_armada').value = kode;
+    const nopol = armada[kode];
+    if (nopol) {
+      document.getElementById('nopol').value = nopol;
+      document.getElementById('nopol').style.color = 'var(--p600)';
+      document.getElementById('nopol').style.fontWeight = '700';
+    } else {
+      document.getElementById('nopol').value = '';
+      document.getElementById('nopol').style.color = '';
+      document.getElementById('nopol').style.fontWeight = '';
+    }
+  }
   const state = { bbm: null, sug: null };
 
   const today = new Date();
@@ -483,19 +523,19 @@
     const nopol = document.getElementById('nopol').value;
     const km    = document.getElementById('km').value;
 
-    if (!tgl || !nopol || !km) { showToast('Tanggal, Nopol, dan KM wajib diisi!', 'error'); return; }
+    const kode_armada = document.getElementById('kode_armada').value;
+    if (!tgl || !kode_armada || !km) { showToast('Tanggal, Kode Armada, dan KM wajib diisi!', 'error'); return; }
     if (!state.bbm) { showToast('Pilih status BBM!', 'error'); return; }
     if (!state.sug) { showToast('Pilih Suggest Cuci!', 'error'); return; }
 
-    const scriptUrl = localStorage.getItem('gs_script_url');
-    if (!scriptUrl) { showToast('URL Apps Script belum diatur!', 'error'); return; }
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbwGiGUpPpJQOK1BRieIGrRcZz0ZqoYFbn10i2RDAb-nJ2mhO8L0SZ8SVtjsbo8ylp2A/exec';
 
     const btn = document.getElementById('submit-btn');
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span>Menyimpan…';
 
     const payload = {
-      tanggal: tgl, nopol, km,
+      tanggal: tgl, kode_armada: document.getElementById('kode_armada').value, nopol, km,
       bbm: state.bbm, suggest: state.sug,
       start: document.getElementById('start').value,
       finish: document.getElementById('finish').value
