@@ -523,7 +523,7 @@
     const f = input.files[0]; if (!f) return;
     const box = document.getElementById(boxId);
     const img = document.getElementById(imgId);
-    compressImage(f, 1000, 0.6, dataUrl => {
+    compressImage(f, 700, 0.45, dataUrl => {
       img.src = dataUrl;
       box.classList.add('has-photo');
       photos[imgId] = dataUrl;
