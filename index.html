@@ -436,6 +436,16 @@
     </div>
   </div>
 
+  <div class="card" style="margin-top:12px">
+    <div class="field">
+      <label>Keterangan</label>
+      <textarea id="keterangan" rows="3" placeholder="Opsional — tulis catatan jika ada..."
+        style="width:100%;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);padding:10px 14px;font-size:15px;font-family:'Inter',sans-serif;color:var(--gray-800);background:var(--gray-50);resize:vertical;transition:border-color .15s,box-shadow .15s;"
+        onfocus="this.style.borderColor='var(--p400)';this.style.boxShadow='0 0 0 3px rgba(139,92,246,.15)';this.style.background='#fff'"
+        onblur="this.style.borderColor='var(--gray-200)';this.style.boxShadow='none';this.style.background='var(--gray-50)'"></textarea>
+    </div>
+  </div>
+
   <button class="submit-btn" id="submit-btn" onclick="submitForm()">
     ✓ &nbsp;Simpan Checklist
   </button>
@@ -539,7 +549,7 @@
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  async function submitForm() {
+  function submitForm() {
     const tgl   = document.getElementById('tgl').value;
     const nopol = document.getElementById('nopol').value;
     const km    = document.getElementById('km').value;
@@ -554,44 +564,27 @@
 
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbzsCx1C-vZAv6lC6gD8UfQQUM-S6VtwkKqtbT6HIiDxLqwMbRSeM30DjDLH9AsN1-Lf0A/exec';
 
-    const btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Mengirim foto…';
-
     const payload = {
       tanggal: tgl, kode_armada: document.getElementById('kode_armada').value, nopol, km,
       bbm: state.bbm, suggest: state.sug,
       start: document.getElementById('start').value,
       finish: document.getElementById('finish').value,
+      keterangan: document.getElementById('keterangan').value,
       foto_km: photos['prev-km'],
       foto_bbm: photos['prev-bbm'],
       foto_dalam: photos['prev-dalam'],
       foto_belakang: photos['prev-belakang']
     };
 
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 25000); // 25s timeout
+    // Fire and forget — langsung notif sukses, upload jalan di belakang
+    fetch(scriptUrl, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
 
-      await fetch(scriptUrl, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal
-      });
-      clearTimeout(timeoutId);
-      showToast('✓ Checklist berhasil disimpan!', 'success');
-      setTimeout(() => location.reload(), 2000);
-    } catch(err) {
-      if (err.name === 'AbortError') {
-        showToast('Koneksi lambat/timeout. Coba lagi!', 'error');
-      } else {
-        showToast('Gagal menyimpan. Cek koneksi!', 'error');
-      }
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = '✓ &nbsp;Simpan Checklist';
-    }
+    showToast('✓ Checklist berhasil disimpan!', 'success');
+    setTimeout(() => location.reload(), 1500);
   }
 </script>
 </body>
